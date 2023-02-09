@@ -7,6 +7,8 @@ var userClickedPattern = [];
 var started = false;
 var level = 0;
 
+var highscore = 0;
+var score = 0;
 $(document).keypress(function() {
   if (!started) {
     $("#level-title").text("Level " + level);
@@ -40,6 +42,11 @@ function checkAnswer(currentLevel) {
       if (userClickedPattern.length === gamePattern.length){
 
         //5. Call nextSequence() after a 1000 millisecond delay.
+        updateScore();
+        if (score > highscore){
+          updateHighScore();
+        }
+
         setTimeout(function () {
           nextSequence();
         }, 1000);
@@ -94,4 +101,18 @@ function startOver(){
   level = 0;
   gamePattern = [];
   started = false;
+  score = 0;
+  setTimeout(function () {
+    $("#current-score").text("Score: 0")
+  }, 10000);
+}
+
+function updateHighScore(){
+  highscore++;
+  $("#high-score").text("Highscore: " + highscore);
+}
+
+function updateScore(){
+  score++;
+  $("#current-score").text("Score: " + score);
 }
